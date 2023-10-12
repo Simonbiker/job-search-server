@@ -5,6 +5,16 @@ import express from 'express'
 const app = express()
 
 import morgan from 'morgan';
+import { nanoid } from 'nanoid';
+
+let jobs = [
+    {id: nanoid(), company: 'apply', position: 'frontend'},
+    {id: nanoid(), company: 'google', position: 'back-end'},
+];
+
+app.get('/api/v1/jobs', (req, res) => {
+    res.status(200).json({jobs});
+})
 
 if(process.env.NODE_ENV === 'development') {
    app.use(morgan('dev')); 
