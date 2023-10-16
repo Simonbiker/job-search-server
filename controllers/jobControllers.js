@@ -1,5 +1,6 @@
 import Job from "../models/jobModels.js";
-import {StatusCode} from 'http-status-codes';
+import {StatusCodes} from 'http-status-codes';
+import { NotFoundError } from "../errors/customErrors.js";
 
 import { nanoid } from "nanoid";
 
@@ -10,23 +11,21 @@ let jobs = [
 
 export const getAllJobs = async (req, res) => {
     const jobs = await Job.find({})
-    res.status(StatusCode.OK).json({jobs});
+    res.status(StatusCodes.OK).json({jobs});
 };
 
 export const createJob = async (req, res) => {
     const job = await Job.create(req.body);
-    res.status(StatusCode.CREATED).json({jobs});
+    res.status(StatusCodes.CREATED).json({jobs});
   };
 
 export const getJob = async (req, res) => {
     const {id} = req.params;
     const job = await Job.findById(id);
 
-    if(!job) {
-        return res.status(404).json({msg: `no job with id ${id}`});
-    }
+    if (!job) throw new NotFoundError(`no job with id : ${id}`);
 
-    res.status(StatusCode.OK).json({jobs});
+    res.status(StatusCodes.OK).json({jobs});
 };
 
 export const updateJob = async (req, res) => {
@@ -35,22 +34,18 @@ export const updateJob = async (req, res) => {
         new:true
     });
 
-    if (!updateJob) {
-        return res.status(404).json({msg: `no job with id ${id}`});
-    }
+    if (!updateJob) throw new NotFoundError(`no job with id : ${id}`);
 
-    res.status(StatusCode.OK).json({msg: 'job modified', job: updateJob});
+    res.status(StatusCodes.OK).json({msg: 'job modified', job: updateJob});
 };
 
 export const deleteJob = async (req, res) => {
     const { id } = req.params;
     const removeJob = await Job.findByIdAndDelete(id);
 
-    if (!removeJob) {
-      return res.status(404).json({ msg: `no job with id ${id}` });
-    }
+    if (!removeJob) throw new NotFoundError(`no job with id : ${id}`);
     
   
-    res.status(StatusCode.OK).json({ msg: 'job deleted', job: removeJob });
+    res.status(StatusCodes.OK).json({ msg: 'job deleted', job: removeJob });
 };
 
