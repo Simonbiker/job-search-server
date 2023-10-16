@@ -23,10 +23,6 @@ if(process.env.NODE_ENV === 'development') {
      res.send('Hiya');
  });
  
- app.post('/', (req, res) => {
-     res.json({message: 'Data received', data:req.body});
- })
-
 
 app.use('/api/v1/jobs', jobRouter);
 
