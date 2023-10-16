@@ -2608,12 +2608,7 @@ export const validateJobInput = withValidationErrors([
 ```js
 import { validateJobInput } from '../middleware/validationMiddleware.js';
 
-router.route('/').get(getAllJobs).post(validateJobInput, createJob);
-router
-  .route('/:id')
-  .get(getJob)
-  .patch(validateJobInput, updateJob)
-  .delete(deleteJob);
+
 ```
 
 - create job request
