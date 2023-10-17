@@ -1,4 +1,4 @@
-import Job from "../models/jobModels.js";
+import Job from "../models/JobModels.js";
 import {StatusCodes} from 'http-status-codes';
 
 import { nanoid } from "nanoid";
