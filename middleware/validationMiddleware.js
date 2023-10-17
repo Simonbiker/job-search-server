@@ -64,4 +64,14 @@ export const validateRegisterInput = withValidationErrors([
     body('password').notEmpty().withMessage('password is required')
     .isLength({min: 8}).withMessage('password must be 8 characters long'),
     body('location').notEmpty().withMessage('location is required'),
-])
+]);
+
+export const validateLoginInput = withValidationErrors([
+    body('email')
+    .notEmpty()
+    .withMessage('email is required')
+    .isEmail()
+    .withMessage('invalid email format'),    
+    body('password').notEmpty().withMessage('password is required')
+    .withMessage('You must enter a password'),
+]);
