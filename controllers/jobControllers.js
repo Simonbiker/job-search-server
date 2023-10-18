@@ -9,9 +9,10 @@ let jobs = [
 ];
 
 export const getAllJobs = async (req, res) => {
-    const jobs = await Job.find({})
-    res.status(StatusCodes.OK).json({jobs});
-};
+    console.log(req.user);
+    const jobs = await Job.find({ createdBy: req.user.userId });
+    res.status(StatusCodes.OK).json({ jobs });
+  };
 
 export const createJob = async (req, res) => {
     const job = await Job.create(req.body);
