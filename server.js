@@ -7,6 +7,7 @@ const app = express()
 
 import morgan from 'morgan';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 
 // routers
 import jobRouter from './routes/jobRouter.js';
@@ -14,19 +15,21 @@ import authRouter from './routes/auth.Router.js';
 
 // Middleware
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
+import {authenticateUser} from './middleware/authMiddleware.js';
 
 if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev')); 
  }
  
- app.use(express.json());
- 
- app.get('/', (req, res) => { // home route
-     res.send('Hiya');
- });
+app.use(cookieParser());
+app.use(express.json());
+
+app.get('/', (req, res) => { // home route
+    res.send('Hiya');
+});
  
 
-app.use('/api/v1/jobs', jobRouter);
+app.use('/api/v1/jobs',authenticateUser, jobRouter);
 app.use('/api/v1/auth', authRouter);
 
 app.use('*', (req, res)=> {
