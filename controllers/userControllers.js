@@ -3,7 +3,9 @@ import User from '../models/UserModel.js';
 import Job from "../models/jobModels.js";
 
 export const getCurrentUser = async (req, res) => {
-    res.status(StatusCodes.OK).json({msg:'get current user'})
+    const user = await User.findOne({_id: req.user.userId});
+    const userWithoutPassword = user.toJSON();
+    res.status(StatusCodes.OK).json({userWithoutPassword})
 }
 
 export const getApplicationStatus = async (req, res) => {
